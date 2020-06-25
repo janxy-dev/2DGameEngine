@@ -1,8 +1,7 @@
-﻿using _2DGameEngine.Scenes;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace _2DGameEngine.Grid
+namespace _2DGameEngine.Tiles
 {
     public class AutoTile : Tile
     {

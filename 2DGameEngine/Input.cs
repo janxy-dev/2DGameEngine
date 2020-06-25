@@ -77,7 +77,7 @@ namespace _2DGameEngine
 
         public static void GetState()
         {
-           // if (!RenderContext.Game.IsActive) return; change later
+            if (!RenderContext.Game.IsActive) return; //change later
             prevKeyboardState = keyboardState;
             keyboardState = Keyboard.GetState();
             prevMouseState = mouseState;

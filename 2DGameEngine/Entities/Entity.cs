@@ -7,15 +7,19 @@ using System.Text;
 
 namespace _2DGameEngine.Entities
 {
-    public abstract class Entity
+    public class Entity
     {
+        public Scene Scene { get; }
         public List<Component> Components { get; } = new List<Component>();
         public Sprite Sprite { get; set; }
         public Transform Transform = new Transform();
         public Entity(Scene scene)
         {
-            scene.Entities.Add(this);
+            if (scene == null) return;
+            Scene = scene;
+            Scene.Entities.Add(this);
         }
+        public Entity() { }
         public void Update()
         {
             for(int i = 0; i<Components.Count; i++)

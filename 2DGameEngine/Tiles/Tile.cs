@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace _2DGameEngine.Grid
+namespace _2DGameEngine.Tiles
 {
     public class Tile
     {

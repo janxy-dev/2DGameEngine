@@ -4,20 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace _2DGameEngine.Grid
+namespace _2DGameEngine.Tiles
 {
     public class TileMap
     {
         public Point TileSize { get; }
         public Point Size { get; }
-        public Point MousePosition { get { return Scene.current.MousePosition/TileSize; } }
+        public Scene Scene { get; }
+        public Point MousePosition { get { return Scene.MousePosition/TileSize; } }
         private Tile[,] _Tiles;
-        public TileMap(int sizeX, int sizeY, int tileSizeX, int tileSizeY)
+        public TileMap(Scene scene, int sizeX, int sizeY, int tileSizeX, int tileSizeY)
         {
             _Tiles = new Tile[sizeX, sizeY];
             TileSize = new Point(tileSizeX, tileSizeY);
             Size = new Point(sizeX, sizeY);
-            Scene.current.TileMap = this;
+            scene.TileMap = this;
+            Scene = scene;
 
             for(int x = 0; x<sizeX; x++)
             {

@@ -15,7 +15,7 @@ namespace _2DGameEngine
         }
         public Camera(Scene scene) : base(scene)
         {
-            scene.Entities.Add(this);
         }
+        public Camera() { }
     }
 }

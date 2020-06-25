@@ -4,14 +4,16 @@ using System.Text;
 
 namespace _2DGameEngine.Entities
 {
-    public abstract class Component
+    public class Component
     {
-        protected Entity Entity;
+        public Entity Entity { get; set; }
         public Component(Entity entity)
         {
-            entity.Components.Add(this);
+            if (entity == null) return;
             Entity = entity;
+            Entity.Components.Add(this);
         }
+        public Component() { }
         public virtual void Update() {}
     }
 }

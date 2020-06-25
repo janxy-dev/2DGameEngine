@@ -10,8 +10,8 @@ namespace _2DGameEngine
         public EngineGame()
         {
             IsMouseVisible = true;
+            RenderContext.Game = this;
             RenderContext.Graphics = new GraphicsDeviceManager(this);
-            RenderContext.Content = Content;
             RenderContext.Graphics.PreferredBackBufferWidth = 1280;
             RenderContext.Graphics.PreferredBackBufferHeight = 720;
             RenderContext.Content.RootDirectory = "Content";
@@ -32,14 +32,14 @@ namespace _2DGameEngine
         }
         protected override void Update(GameTime gameTime)
         {
-            Scene.current.Update();
+            Scene.Instance.Update();
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            RenderContext.SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Scene.current.Camera.TransformMatrix);
-            Scene.current.Draw();
+            RenderContext.SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Scene.Instance.Camera.TransformMatrix);
+            Scene.Instance.Draw();
             RenderContext.SpriteBatch.End();
             base.Draw(gameTime);
         }
