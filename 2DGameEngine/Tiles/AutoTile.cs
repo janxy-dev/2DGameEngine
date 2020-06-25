@@ -29,14 +29,14 @@ namespace _2DGameEngine.Tiles
         ChunkList Chunks;
         AdjacentValues Value { get; set; }
         public string ID { get { if (Tileset != null) { return Tileset.AssetName + TileIndex; } else { return "null"; } } }
-        public AutoTile(TileMap tilemap, Point gridPosition, Tileset tileset=null, int index = 0) : base(tilemap, gridPosition, tileset, index)
+        public AutoTile(TileLayer layer, Point gridPosition, Tileset tileset=null, int index = 0) : base(layer, gridPosition, tileset, index)
         {
             //Update autotiles!
             for (int x = gridPosition.X - 1; x <= gridPosition.X + 1; x++)
             {
                 for (int y = gridPosition.Y - 1; y <= gridPosition.Y + 1; y++)
                 {
-                    if (tilemap.InBounds(x, y) && tilemap.GetTiles()[x, y] is AutoTile autoTile && autoTile.ID != "null")
+                    if (layer.TileMap.InBounds(x, y) && layer.Tiles[x, y] is AutoTile autoTile && autoTile.ID != "null")
                     {
                         autoTile.UpdateTexture();
                     }
@@ -55,7 +55,7 @@ namespace _2DGameEngine.Tiles
         }
         public bool HasNeighbour(int x, int y)
         {
-            return TileMap.InBounds(x, y) && TileMap.GetTiles()[x, y] != null && TileMap.GetTiles()[x, y] is AutoTile tile && tile.ID == ID;
+            return TileLayer.TileMap.InBounds(x, y) && TileLayer.Tiles[x, y] != null && TileLayer.Tiles[x, y] is AutoTile tile && tile.ID == ID;
         }
         void AddChunks(int first, int second, int third, int fourth, Rectangle[] chunks)
         {
@@ -94,8 +94,8 @@ namespace _2DGameEngine.Tiles
         public override void Draw()
         {
             if (Tileset == null) return;
-            fixoff.X = (Width / 2 - TileMap.TileSize.X / 2) / -2;
-            fixoff.Y = (Height / 2 - TileMap.TileSize.Y / 2) / -2;
+            fixoff.X = (Width / 2 - TileLayer.TileMap.TileSize.X / 2) / -2;
+            fixoff.Y = (Height / 2 - TileLayer.TileMap.TileSize.Y / 2) / -2;
             RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + fixoff.X, Position.Y + fixoff.Y, Width / 2, Height / 2), Chunks.TL[Value.TL], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, 0f);
             RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + Width / 2 + fixoff.X, Position.Y + fixoff.Y, Width / 2, Height / 2), Chunks.TR[Value.TR], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, 0f);
             RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + fixoff.X, Position.Y + Height / 2 + fixoff.Y, Width / 2, Height / 2), Chunks.BL[Value.BL], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, 0f);

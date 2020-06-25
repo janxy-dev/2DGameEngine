@@ -15,13 +15,13 @@ namespace _2DGameEngine.Tiles
         public int Width { get { return Tileset.TileWidth; } }
         public int Height { get { return Tileset.TileHeight; } }
         public Point GridPosition { get; }
-        public TileMap TileMap { get; }
-        public Point Position { get { return new Point(GridPosition.X * TileMap.TileSize.X, GridPosition.Y * TileMap.TileSize.Y); } } //change later
-        public Tile(TileMap tileMap, Point gridPosition, Tileset tileset=null, int index=0)
+        public TileLayer TileLayer { get; }
+        public Point Position { get { return new Point(GridPosition.X * TileLayer.TileMap.TileSize.X, GridPosition.Y * TileLayer.TileMap.TileSize.Y); } } //change later
+        public Tile(TileLayer layer, Point gridPosition, Tileset tileset=null, int index=0)
         {
-            TileMap = tileMap;
+            TileLayer = layer;
             GridPosition = gridPosition;
-            tileMap.AddTile(this);
+            layer.AddTile(this);
             if (tileset == null) { return; }
 
             TileIndex = index;

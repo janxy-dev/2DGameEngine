@@ -12,24 +12,14 @@ namespace _2DGameEngine.Tiles
         public Point Size { get; }
         public Scene Scene { get; }
         public Point MousePosition { get { return Scene.MousePosition/TileSize; } }
-        private Tile[,] _Tiles;
+        public List<TileLayer> TileLayers { get; } = new List<TileLayer>();
         public TileMap(Scene scene, int sizeX, int sizeY, int tileSizeX, int tileSizeY)
         {
-            _Tiles = new Tile[sizeX, sizeY];
             TileSize = new Point(tileSizeX, tileSizeY);
             Size = new Point(sizeX, sizeY);
             scene.TileMap = this;
             Scene = scene;
-
-            for(int x = 0; x<sizeX; x++)
-            {
-                for(int y = 0; y<sizeY; y++)
-                {
-                    AddTile(new Tile(this, new Point(x,y)));
-                }
-            }
         }
-        public Tile[,] GetTiles() { return _Tiles; }
         public bool InBounds(int gridx, int gridy)
         {
             if (gridx < Size.X && gridy < Size.Y && gridx >= 0 && gridy >= 0)
@@ -38,22 +28,11 @@ namespace _2DGameEngine.Tiles
             }
             return false;
         }
-        public void AddTile(Tile tile)
-        {
-            if(!InBounds(tile.GridPosition.X, tile.GridPosition.Y))
-            {
-                throw new ArgumentException("Tile is out of map bounds!");
-            }
-            _Tiles[tile.GridPosition.X, tile.GridPosition.Y] = tile;
-        }
         public void Draw()
         {
-            for(int x = 0; x<Size.X; x++)
+            for (int i = 0; i<TileLayers.Count; i++)
             {
-                for(int y = 0; y<Size.Y; y++)
-                {
-                    _Tiles[x, y].Draw();
-                }
+                TileLayers[i].Draw();
             }
         }
     }

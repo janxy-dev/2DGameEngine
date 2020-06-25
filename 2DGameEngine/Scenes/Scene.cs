@@ -1,6 +1,7 @@
 ﻿using _2DGameEngine.Entities;
 using _2DGameEngine.Tiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -32,14 +33,16 @@ namespace _2DGameEngine.Scenes
         }
         public void Draw()
         {
-            for(int i = 0; i<Entities.Count; i++)
+            RenderContext.SpriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Scene.Instance.Camera.TransformMatrix);
+            for (int i = 0; i < Entities.Count; i++)
             {
                 Entities[i].Draw();
             }
-            if(TileMap != null)
+            if (TileMap != null)
             {
                 TileMap.Draw();
             }
+            RenderContext.SpriteBatch.End();
         }
     }
 }

@@ -38,9 +38,7 @@ namespace _2DGameEngine
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            RenderContext.SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Scene.Instance.Camera.TransformMatrix);
             Scene.Instance.Draw();
-            RenderContext.SpriteBatch.End();
             base.Draw(gameTime);
         }
     }
