@@ -16,7 +16,6 @@ namespace _2DGameEngine.Entities
         public Entity(Layer layer)
         {
             Layer = layer;
-            layer.Entities.Add(this);
         }
         public void Update()
         {

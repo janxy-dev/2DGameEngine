@@ -11,7 +11,6 @@ namespace _2DGameEngine.Entities
         {
             if (entity == null) return;
             Entity = entity;
-            Entity.Components.Add(this);
         }
         public Component() { }
         public virtual void Update() {}

@@ -22,7 +22,6 @@ namespace _2DGameEngine.Tiles
         {
             TileLayer = layer;
             GridPosition = gridPosition;
-            layer.AddTile(this);
             if (tileset == null) { return; }
 
             TileIndex = index;
