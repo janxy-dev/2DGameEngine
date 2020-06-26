@@ -13,9 +13,8 @@ namespace _2DGameEngine
                 return Matrix.CreateTranslation(-Transform.Position.X, -Transform.Position.Y, 0f);
             }
         }
-        public Camera(Scene scene) : base(scene)
+        public Camera(Layer layer) : base(layer)
         {
         }
-        public Camera() { }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using _2DGameEngine.Math;
+using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -16,7 +17,7 @@ namespace _2DGameEngine.Tiles
         public int Height { get { return Tileset.TileHeight; } }
         public Point GridPosition { get; }
         public TileLayer TileLayer { get; }
-        public Point Position { get { return new Point(GridPosition.X * TileLayer.TileMap.TileSize.X, GridPosition.Y * TileLayer.TileMap.TileSize.Y); } } //change later
+        public Point Position { get { return new Point(GridPosition.X * TileLayer.TileSize.X, GridPosition.Y * TileLayer.TileSize.Y); } } //change later
         public Tile(TileLayer layer, Point gridPosition, Tileset tileset=null, int index=0)
         {
             TileLayer = layer;

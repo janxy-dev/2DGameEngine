@@ -16,6 +16,7 @@ namespace _2DGameEngine.Graphics
         {
             Entity = entity;
             Texture = RenderContext.Content.Load<Texture2D>(assetName);
+            entity.Sprite = this;
             //If size is 0, set it to Texture2D size
             if(entity.Transform.Size == new Point())
             {
@@ -26,6 +27,7 @@ namespace _2DGameEngine.Graphics
         {
             Entity = entity;
             Texture = texture;
+            entity.Sprite = this;
             if (entity.Transform.Size == new Point())
             {
                 Entity.Transform.Size = new Point(Texture.Width, Texture.Height);

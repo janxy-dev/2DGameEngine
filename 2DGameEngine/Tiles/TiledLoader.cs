@@ -37,14 +37,13 @@ namespace _2DGameEngine.Tiles
             }
             return new Tileset(source, tileWidth, tileHeight);
         }
-        public static TileMap LoadMap(Scene scene, string path)
+        public static List<Layer> LoadMap(Scene scene, string path)
         {
-            TileMap map = null;
             int width, height, tileWidth, tileHeight;
-            width = height = 0;
+            width = height = tileWidth = tileHeight = 0;
             List<Tileset> tilesets = new List<Tileset>();
+            List<Layer> layers = new List<Layer>();
             int layerID = -1;
-            int layerCount;
             using (StreamReader sr = new StreamReader(path))
             {
                 XmlReader xr = XmlReader.Create(sr);
@@ -59,17 +58,12 @@ namespace _2DGameEngine.Tiles
                                 height = int.Parse(xr.GetAttribute(5));
                                 tileWidth = int.Parse(xr.GetAttribute(6));
                                 tileHeight = int.Parse(xr.GetAttribute(7));
-                                layerCount = int.Parse(xr.GetAttribute(9))-1;
-                                map = new TileMap(scene, width, height, tileWidth, tileHeight);
-                                for(int i = 0; i<layerCount; i++)
-                                {
-                                    new TileLayer(map);
-                                }
                                 break;
                             case "tileset":
                                 tilesets.Add(LoadTileset(xr.GetAttribute(1)));
                                 break;
                             case "layer":
+                                layers.Add(new TileLayer(scene, width, height, tileWidth, tileHeight));
                                 layerID++;
                                 break;
                             case "data":
@@ -80,7 +74,7 @@ namespace _2DGameEngine.Tiles
                                     {
                                         int index = int.Parse(buffer[x + y * width])-1;
                                         if(index < 0){
-                                            new Tile(map.TileLayers[layerID], new Point(x, y));
+                                            new Tile((TileLayer)layers[layerID], new Point(x, y));
                                             continue;
                                         }
                                         for(int i = 0; i<tilesets.Count; i++)
@@ -89,7 +83,7 @@ namespace _2DGameEngine.Tiles
                                             if (i > 0) a = tilesets[i - 1].TileCount;
                                             if (index-a < tilesets[i].TileCount)
                                             {
-                                                new Tile(map.TileLayers[layerID], new Point(x, y), tilesets[i], index-a);
+                                                new Tile((TileLayer)layers[layerID], new Point(x, y), tilesets[i], index-a);
                                                 break;
                                             }
                                         }
@@ -100,7 +94,7 @@ namespace _2DGameEngine.Tiles
                     }
                 }
             }
-            return map;
+            return layers;
         }
     }
 }

@@ -9,17 +9,15 @@ namespace _2DGameEngine.Entities
 {
     public class Entity
     {
-        public Scene Scene { get; }
+        public Layer Layer { get; }
         public List<Component> Components { get; } = new List<Component>();
         public Sprite Sprite { get; set; }
         public Transform Transform = new Transform();
-        public Entity(Scene scene)
+        public Entity(Layer layer)
         {
-            if (scene == null) return;
-            Scene = scene;
-            Scene.Entities.Add(this);
+            Layer = layer;
+            layer.Entities.Add(this);
         }
-        public Entity() { }
         public void Update()
         {
             for(int i = 0; i<Components.Count; i++)
@@ -29,7 +27,8 @@ namespace _2DGameEngine.Entities
         }
         public void Draw()
         {
-            if (Sprite != null) Sprite.Draw();
+            if (Sprite != null)
+                Sprite.Draw();
         }
     }
 }
