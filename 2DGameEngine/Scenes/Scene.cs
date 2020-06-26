@@ -10,8 +10,7 @@ namespace _2DGameEngine.Scenes
     public class Scene
     {
         public static Scene Instance { get; set; }
-        public List<Layer> Layers { get; } = new List<Layer>();
-        public Layer DefaultLayer { get; }
+        private List<Layer> Layers { get; } = new List<Layer>();
         public Point MousePosition { get 
             { 
                 Vector2 pos = Vector2.Transform(new Vector2(Input.MousePosition.X, Input.MousePosition.Y), Matrix.Invert(Camera.TransformMatrix));
@@ -22,8 +21,18 @@ namespace _2DGameEngine.Scenes
         public Scene(int sizeX, int sizeY)
         {
             Instance = this;
-            DefaultLayer = new Layer(this, sizeX, sizeY);
-            Camera = new Camera(DefaultLayer);
+            Camera = new Camera();
+            Layers.Add(new Layer(sizeX, sizeY));
+            Layers[0].AddEntity(Camera);
+        }
+        public Layer GetLayer(int layerID)
+        {
+            return Layers[layerID];
+        }
+        public void AddLayer(Layer layer)
+        {
+            layer.Scene = this;
+            Layers.Add(layer);
         }
         public void Update()
         {

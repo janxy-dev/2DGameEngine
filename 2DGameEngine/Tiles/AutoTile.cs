@@ -30,19 +30,8 @@ namespace _2DGameEngine.Tiles
         ChunkList Chunks;
         AdjacentValues Value { get; set; }
         public string ID { get { if (Tileset != null) { return Tileset.AssetName + TileIndex; } else { return "null"; } } }
-        public AutoTile(TileLayer layer, Point gridPosition, Tileset tileset=null, int index = 0) : base(layer, gridPosition, tileset, index)
+        public AutoTile(Point gridPosition, Tileset tileset=null, int index = 0) : base(gridPosition, tileset, index)
         {
-            //Update autotiles!
-            for (int x = gridPosition.X - 1; x <= gridPosition.X + 1; x++)
-            {
-                for (int y = gridPosition.Y - 1; y <= gridPosition.Y + 1; y++)
-                {
-                    if (layer.InBounds(x, y) && layer.Tiles[x, y] is AutoTile autoTile && autoTile.ID != "null")
-                    {
-                        autoTile.UpdateTexture();
-                    }
-                }
-            }
             if (tileset == null) { return; }
             TileIndex = index;
             Chunks = new ChunkList(5);
@@ -56,7 +45,7 @@ namespace _2DGameEngine.Tiles
         }
         public bool HasNeighbour(int x, int y)
         {
-            return TileLayer.InBounds(x, y) && TileLayer.Tiles[x, y] != null && TileLayer.Tiles[x, y] is AutoTile tile && tile.ID == ID;
+            return TileLayer.InBounds(x, y) && TileLayer.GetTile(x, y) != null && TileLayer.GetTile(x, y) is AutoTile tile && tile.ID == ID;
         }
         void AddChunks(int first, int second, int third, int fourth, Rectangle[] chunks)
         {

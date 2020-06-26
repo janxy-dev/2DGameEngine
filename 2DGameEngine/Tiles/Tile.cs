@@ -16,11 +16,10 @@ namespace _2DGameEngine.Tiles
         public int Width { get { return Tileset.TileWidth; } }
         public int Height { get { return Tileset.TileHeight; } }
         public Point GridPosition { get; }
-        public TileLayer TileLayer { get; }
+        public TileLayer TileLayer { get; internal set; }
         public Point Position { get { return new Point(GridPosition.X * TileLayer.TileSize.X, GridPosition.Y * TileLayer.TileSize.Y); } } //change later
-        public Tile(TileLayer layer, Point gridPosition, Tileset tileset=null, int index=0)
+        public Tile(Point gridPosition, Tileset tileset=null, int index=0)
         {
-            TileLayer = layer;
             GridPosition = gridPosition;
             if (tileset == null) { return; }
 

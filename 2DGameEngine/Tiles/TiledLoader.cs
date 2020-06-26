@@ -63,7 +63,7 @@ namespace _2DGameEngine.Tiles
                                 tilesets.Add(LoadTileset(xr.GetAttribute(1)));
                                 break;
                             case "layer":
-                                layers.Add(new TileLayer(scene, width, height, tileWidth, tileHeight));
+                                layers.Add(new TileLayer(width, height, tileWidth, tileHeight));
                                 layerID++;
                                 break;
                             case "data":
@@ -74,7 +74,7 @@ namespace _2DGameEngine.Tiles
                                     {
                                         int index = int.Parse(buffer[x + y * width])-1;
                                         if(index < 0){
-                                            ((TileLayer)layers[layerID]).AddTile(new Tile((TileLayer)layers[layerID], new Point(x, y)));
+                                            ((TileLayer)layers[layerID]).AddTile(new Tile(new Point(x, y)));
                                             continue;
                                         }
                                         for(int i = 0; i<tilesets.Count; i++)
@@ -83,7 +83,7 @@ namespace _2DGameEngine.Tiles
                                             if (i > 0) a = tilesets[i - 1].TileCount;
                                             if (index-a < tilesets[i].TileCount)
                                             {
-                                                ((TileLayer)layers[layerID]).AddTile(new Tile((TileLayer)layers[layerID], new Point(x, y), tilesets[i], index-a));
+                                                ((TileLayer)layers[layerID]).AddTile(new Tile(new Point(x, y), tilesets[i], index-a));
                                                 break;
                                             }
                                         }

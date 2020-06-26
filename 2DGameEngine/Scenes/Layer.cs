@@ -7,14 +7,12 @@ namespace _2DGameEngine.Scenes
 {
     public class Layer
     {
-        public Scene Scene { get; }
+        public Scene Scene { get; internal set; }
         public Point Size { get; }
-        public List<Entity> Entities { get; } = new List<Entity>();
-        public Layer(Scene scene, int sizeX, int sizeY)
+        private List<Entity> Entities { get; } = new List<Entity>();
+        public Layer(int sizeX, int sizeY)
         {
             Size = new Point(sizeX, sizeY);
-            scene.Layers.Add(this);
-            Scene = scene;
         }
         public bool InBounds(int x, int y)
         {
@@ -26,6 +24,7 @@ namespace _2DGameEngine.Scenes
         }
         public void AddEntity(Entity entity)
         {
+            entity.Layer = this;
             Entities.Add(entity);
         }
         public virtual void Draw()

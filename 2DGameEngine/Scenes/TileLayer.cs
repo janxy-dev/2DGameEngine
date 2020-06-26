@@ -9,14 +9,21 @@ namespace _2DGameEngine.Scenes
 {
     public class TileLayer : Layer
     {
-        public Tile[,] Tiles { get; }
+        private Tile[,] Tiles { get; }
         public Point TileSize { get; }
         public Point GridSize { get; }
-        public TileLayer(Scene scene, int gridSizeX, int gridSizeY, int tileSizeX, int tileSizeY) : base(scene, gridSizeX*tileSizeX, gridSizeY*tileSizeY)
+        public TileLayer(int gridSizeX, int gridSizeY, int tileSizeX, int tileSizeY) : base(gridSizeX*tileSizeX, gridSizeY*tileSizeY)
         {
             Tiles = new Tile[gridSizeX, gridSizeY];
             TileSize = new Point(tileSizeX, tileSizeY);
             GridSize = new Point(gridSizeX, gridSizeY);
+            for(int x = 0; x<gridSizeX; x++)
+            {
+                for(int y = 0; y<gridSizeY; y++)
+                {
+                    AddTile(new Tile(new Point(x, y)));
+                }
+            }
         }
         public new bool InBounds(int gridx, int gridy)
         {
@@ -26,9 +33,28 @@ namespace _2DGameEngine.Scenes
             }
             return false;
         }
+        public Tile GetTile(int x, int y)
+        {
+            return Tiles[x, y];
+        }
         public void AddTile(Tile tile)
         {
+            tile.TileLayer = this;
             Tiles[tile.GridPosition.X, tile.GridPosition.Y] = tile;
+            if(tile is AutoTile atile)
+            {
+                //Update autotiles!
+                for (int x = atile.GridPosition.X - 1; x <= atile.GridPosition.X + 1; x++)
+                {
+                    for (int y = atile.GridPosition.Y - 1; y <= atile.GridPosition.Y + 1; y++)
+                    {
+                        if (InBounds(x, y) && GetTile(x, y) is AutoTile autoTile && autoTile.ID != "null")
+                        {
+                            autoTile.UpdateTexture();
+                        }
+                    }
+                }
+            }
         }
         public override void Draw()
         {
