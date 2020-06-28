@@ -12,24 +12,25 @@ namespace _2DGameEngine.Entities
     public class Entity
     {
         public Layer Layer { get; internal set; }
-        private List<Component> Components { get; } = new List<Component>();
-        public Sprite Sprite { get; private set; }
+        private List<EntityComponent> Components { get; } = new List<EntityComponent>();
+        public Sprite Sprite { get; set; }
         public Transform Transform = new Transform();
-        public void SetSprite(Sprite sprite)
+        public Entity(Sprite sprite)
         {
             Sprite = sprite;
-            if (Transform.Size == new Point())
-            {
-                Transform.Size = sprite.Size;
-            }
-            else Sprite.Size = Transform.Size;
+            Transform.Size = sprite.Size;
         }
-        public Component[] GetComponents() { return Components.ToArray(); }
-        public Component GetComponent<T>()
+        public Entity(int width, int height)
+        {
+            Transform.Size = new Point(width, height);
+        }
+        public Entity() { }
+        public EntityComponent[] GetComponents() { return Components.ToArray(); }
+        public EntityComponent GetComponent<T>()
         {
             return Components.Find(n => n.GetType() == typeof(T));
         }
-        public void AddComponent(Component component)
+        public void AddComponent(EntityComponent component)
         {
             component.Entity = this;
             Components.Add(component);
@@ -43,8 +44,7 @@ namespace _2DGameEngine.Entities
         }
         public void Draw()
         {
-            if (Sprite != null)
-                RenderContext.SpriteBatch.Draw(Sprite.Texture, new Rectangle(Transform.Position, Transform.Size), null, Color.White, Transform.Rotation, Transform.Origin, SpriteEffects.None, 0f);
+            if (Sprite != null) Sprite.Draw(Transform);
         }
     }
 }

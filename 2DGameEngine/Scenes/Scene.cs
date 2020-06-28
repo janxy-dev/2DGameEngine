@@ -18,11 +18,11 @@ namespace _2DGameEngine.Scenes
             }
         }
         public Camera Camera { get; set; }
-        public Scene(int sizeX, int sizeY)
+        public Scene()
         {
             Instance = this;
             Camera = new Camera();
-            Layers.Add(new Layer(sizeX, sizeY));
+            Layers.Add(new Layer());
             Layers[0].AddEntity(Camera);
         }
         public Layer GetLayer(int layerID)

@@ -1,4 +1,5 @@
 ﻿using _2DGameEngine.Entities;
+using _2DGameEngine.Particles;
 using _2DGameEngine.Tiles;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -8,24 +9,22 @@ namespace _2DGameEngine.Scenes
     public class Layer
     {
         public Scene Scene { get; internal set; }
-        public Point Size { get; }
         private List<Entity> Entities { get; } = new List<Entity>();
-        public Layer(int sizeX, int sizeY)
-        {
-            Size = new Point(sizeX, sizeY);
-        }
-        public bool InBounds(int x, int y)
-        {
-            if (x < Size.X && y < Size.Y && x >= 0 && y >= 0)
-            {
-                return true;
-            }
-            return false;
-        }
+        public ParticleSystem ParticleSystem { get; } = new ParticleSystem();
+
         public void AddEntity(Entity entity)
         {
             entity.Layer = this;
             Entities.Add(entity);
+        }
+        public Entity[] GetEntities()
+        {
+            return Entities.ToArray();
+        }
+        public void RemoveEntity(Entity entity)
+        {
+            entity.Layer = null;
+            Entities.Remove(entity);
         }
         public virtual void Draw()
         {
@@ -33,6 +32,7 @@ namespace _2DGameEngine.Scenes
             {
                 Entities[i].Draw();
             }
+            ParticleSystem.Draw();
         }
         public virtual void Update()
         {
@@ -40,6 +40,7 @@ namespace _2DGameEngine.Scenes
             {
                 Entities[i].Update();
             }
+            ParticleSystem.Update();
         }
     }
 }

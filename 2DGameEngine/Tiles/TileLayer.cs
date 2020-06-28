@@ -1,18 +1,14 @@
-﻿using _2DGameEngine.Tiles;
+﻿using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 
-namespace _2DGameEngine.Scenes
+namespace _2DGameEngine.Tiles
 {
     public class TileLayer : Layer
     {
         private Tile[,] Tiles { get; }
         public Point TileSize { get; }
         public Point GridSize { get; }
-        public TileLayer(int gridSizeX, int gridSizeY, int tileSizeX, int tileSizeY) : base(gridSizeX*tileSizeX, gridSizeY*tileSizeY)
+        public TileLayer(int gridSizeX, int gridSizeY, int tileSizeX, int tileSizeY)
         {
             Tiles = new Tile[gridSizeX, gridSizeY];
             TileSize = new Point(tileSizeX, tileSizeY);
@@ -25,9 +21,9 @@ namespace _2DGameEngine.Scenes
                 }
             }
         }
-        public new bool InBounds(int gridx, int gridy)
+        public bool InBounds(int gridx, int gridy)
         {
-            if (gridx < Size.X / TileSize.X && gridy < Size.Y / TileSize.Y && gridx >= 0 && gridy >= 0)
+            if (gridx < GridSize.X && gridy < GridSize.Y && gridx >= 0 && gridy >= 0)
             {
                 return true;
             }

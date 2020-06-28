@@ -4,7 +4,7 @@ using System.Text;
 
 namespace _2DGameEngine.Entities
 {
-    public class Component
+    public abstract class EntityComponent
     {
         public Entity Entity { get; set; }
         public virtual void Update() {}
