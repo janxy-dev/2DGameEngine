@@ -1,7 +1,9 @@
 ﻿using _2DGameEngine.Entities;
+using _2DGameEngine.Particles;
 using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace _2DGameEngine
 {
@@ -14,6 +16,8 @@ namespace _2DGameEngine
             RenderContext.Graphics = new GraphicsDeviceManager(this);
             RenderContext.Graphics.PreferredBackBufferWidth = 1280;
             RenderContext.Graphics.PreferredBackBufferHeight = 720;
+            IsFixedTimeStep = false;
+            //RenderContext.Graphics.SynchronizeWithVerticalRetrace = false;
             RenderContext.Content.RootDirectory = "Content";
         }
         protected override void Initialize()

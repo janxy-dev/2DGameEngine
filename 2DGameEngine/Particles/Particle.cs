@@ -9,10 +9,12 @@ namespace _2DGameEngine.Particles
     public struct Particle
     {
         public int ID;
+        public int PoolIndex;
         public bool IsActive;
         public Point Position;
         public Point Size;
-        public Point Velocity;
+        public Vector2 Velocity;
+        public int MaxTicks;
         public int Ticks;
         public Sprite Sprite;
     }

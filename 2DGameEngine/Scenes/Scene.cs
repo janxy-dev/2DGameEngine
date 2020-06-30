@@ -1,4 +1,5 @@
 ﻿using _2DGameEngine.Entities;
+using _2DGameEngine.Particles;
 using _2DGameEngine.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

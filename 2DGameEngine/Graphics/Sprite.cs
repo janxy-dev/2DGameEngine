@@ -12,6 +12,7 @@ namespace _2DGameEngine.Graphics
     {
         public Texture2D Texture { get; }
         public Point Size { get; }
+        public float Opacity { get; set; } = 1f;
         public Sprite(string assetName)
         {
             Texture = RenderContext.Content.Load<Texture2D>(assetName);
@@ -23,7 +24,7 @@ namespace _2DGameEngine.Graphics
         }
         public void Draw(Transform Transform)
         {
-            RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), null, Color.White, Transform.Rotation, Transform.Origin, SpriteEffects.None, 0f);
+            RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), null, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects.None, 0f);
         }
     }
 }

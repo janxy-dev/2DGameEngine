@@ -1,67 +1,77 @@
 ﻿using _2DGameEngine.Graphics;
 using _2DGameEngine.Math;
-using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace _2DGameEngine.Particles
 {
     public class ParticleSystem
     {
-        private static Dictionary<int, Queue<Particle>> particles = new Dictionary<int, Queue<Particle>>();
-        List<Particle> activeParticles = new List<Particle>();
-        private static Dictionary<int, ParticleComponent> particleComponents = new Dictionary<int, ParticleComponent>();
-        public static void AddParticles(Sprite sprite, ParticleComponent component, int count, int ID)
+        private List<ParticlePool> ParticlePools = new List<ParticlePool>();
+        private int PoolIndex = 0;
+        public void CreatePool(Sprite sprite, ParticleComponent component, int count)
         {
-            particles[ID] = new Queue<Particle>(count);
-            particleComponents[ID] = component;
+            var pool = new ParticlePool(count);
+            pool.ParticleComponent = component;
+            ParticlePools.Add(pool);
             for (int i = 0; i<count; i++)
             {
                 Particle particle = new Particle()
                 {
-                    Sprite = sprite,
+                    PoolIndex = PoolIndex,
+                    Sprite = new Sprite(sprite.Texture),
                     Size = sprite.Size,
                 };
-                particles[ID].Enqueue(particle);
+                ParticlePools[PoolIndex].Array[i] = particle;
             }
         }
-        Random rnd = new Random();
-        public void SpawnParticles(int id, Point position, int count, int speed, int ticks)
+        public void SpawnParticles(int index, Point position, Vector2 velocity, int count, int ticks)
         {
-            for(int i = count-1; i>=0; i--)
+            for(int i = ParticlePools[index].InactiveIndex; i>ParticlePools[index].InactiveIndex-count; i--)
             {
-                var particle = particles[id].Dequeue();
+                ParticlePools[index].Array[i].IsActive = true;
+                ref var particle = ref ParticlePools[index].Array[i];
                 particle.Position = position;
-                particle.Velocity = new Point(rnd.Next(-speed, speed+1), rnd.Next(-speed, speed+1));
-                particle.ID = id;
+                particle.Velocity = velocity;
+                particle.MaxTicks = ticks;
                 particle.Ticks = ticks;
-                activeParticles.Add(particle);
+                ParticlePools[index].ParticleComponent.Initialize(ref particle);
             }
+            ParticlePools[index].InactiveIndex -= count;
         }
         public void Draw()
         {
-            for(int i = 0; i<activeParticles.Count; i++)
+            for(int n = 0; n<ParticlePools.Count; n++)
             {
-                activeParticles[i].Sprite.Draw(new Transform(activeParticles[i].Position, activeParticles[i].Size));
+                for (int i = ParticlePools[n].InactiveIndex+1; i < ParticlePools[n].Array.Length; i++)
+                {
+                    ParticlePools[n].Array[i].Sprite.Draw(new Transform(ParticlePools[n].Array[i].Position, ParticlePools[n].Array[i].Size));
+                }
             }
         }
         public void Update()
         {
-            for (int i = activeParticles.Count-1; i >=0 ; i--)
+            for (int n = 0; n<ParticlePools.Count; n++)
             {
-                Particle particle = activeParticles[i];
-                if (particle.Ticks < 1)
+                int a = ParticlePools[n].InactiveIndex + 1;
+                for (int i = ParticlePools[n].InactiveIndex + 1; i < ParticlePools[n].Array.Length; i++)
                 {
-                    particles[particle.ID].Enqueue(particle);
-                    activeParticles.RemoveAt(i);
-                    continue;
+                    var pool = ParticlePools[n].Array;
+                    if(pool[i].Ticks < 1)
+                    {
+                        ParticlePools[n].InactiveIndex++;
+                        pool[i].IsActive = false;
+                        Particle p = pool[i];
+                        pool[i] = pool[a];
+                        pool[a] = p;
+                        a++;
+                        continue;
+                    }
+                    ParticlePools[n].ParticleComponent.Update(ref pool[i]);
+                    pool[i].Ticks--;
                 }
-                particle = particleComponents[particle.ID].Update(particle);
-
-                particle.Ticks--;
-                activeParticles[i] = particle;
+               //Console.WriteLine(ParticlePools[n].Array.Length - (ParticlePools[n].InactiveIndex + 1));
             }
         }
     }
