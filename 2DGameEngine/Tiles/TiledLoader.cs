@@ -1,4 +1,5 @@
-﻿using _2DGameEngine.Scenes;
+﻿using _2DGameEngine.Entities;
+using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,21 @@ namespace _2DGameEngine.Tiles
                             case "layer":
                                 layers.Add(new TileLayer(width, height, tileWidth, tileHeight));
                                 layerID++;
+                                break;
+                            case "objectgroup":
+                                layers.Add(new Layer());
+                                layerID++;
+                                break;
+                            case "object":
+                                Entity entity = new Entity();
+                                layers[layerID].AddEntity(entity);
+                                int posx = (int)float.Parse(xr.GetAttribute(1));
+                                int posy = (int)float.Parse(xr.GetAttribute(2));
+                                int w = (int)float.Parse(xr.GetAttribute(3));
+                                int h = (int)float.Parse(xr.GetAttribute(4));
+                                entity.Transform.Position = new Point(posx, posy);
+                                entity.Transform.Size = new Point(w, h);
+                                entity.AddComponent(new BoxColliderComponent());
                                 break;
                             case "data":
                                 string[] buffer = xr.ReadElementContentAsString().Replace("\n", "").Split(',');

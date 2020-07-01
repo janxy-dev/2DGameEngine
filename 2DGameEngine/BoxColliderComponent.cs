@@ -4,7 +4,7 @@ using System;
 
 namespace _2DGameEngine
 {
-    public class BoxColliderComponet : EntityComponent
+    public class BoxColliderComponent : EntityComponent
     {
         Point size;
         Point offset;
