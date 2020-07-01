@@ -14,8 +14,8 @@ namespace _2DGameEngine
             IsMouseVisible = true;
             RenderContext.Game = this;
             RenderContext.Graphics = new GraphicsDeviceManager(this);
-            RenderContext.Graphics.PreferredBackBufferWidth = 1280;
-            RenderContext.Graphics.PreferredBackBufferHeight = 720;
+            RenderContext.Graphics.PreferredBackBufferWidth = 800;
+            RenderContext.Graphics.PreferredBackBufferHeight = 480;
             IsFixedTimeStep = false;
             //RenderContext.Graphics.SynchronizeWithVerticalRetrace = false;
             RenderContext.Content.RootDirectory = "Content";

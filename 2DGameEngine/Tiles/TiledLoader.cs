@@ -37,7 +37,7 @@ namespace _2DGameEngine.Tiles
             }
             return new Tileset(source, tileWidth, tileHeight);
         }
-        public static List<Layer> LoadMap(Scene scene, string path)
+        public static List<Layer> LoadMap(string path)
         {
             int width, height, tileWidth, tileHeight;
             width = height = tileWidth = tileHeight = 0;

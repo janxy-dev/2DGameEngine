@@ -44,7 +44,7 @@ namespace _2DGameEngine.Scenes
         }
         public void Draw()
         {
-            RenderContext.SpriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Scene.Instance.Camera.TransformMatrix);
+            RenderContext.SpriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, Instance.Camera.TransformMatrix);
             for(int i = 0; i<Layers.Count; i++)
             {
                 Layers[i].Draw();

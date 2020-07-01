@@ -20,7 +20,7 @@ namespace _2DGameEngine.Particles
                 Particle particle = new Particle()
                 {
                     PoolIndex = PoolIndex,
-                    Sprite = new Sprite(sprite.Texture),
+                    Sprite = new Sprite(sprite),
                     Size = sprite.Size,
                 };
                 ParticlePools[PoolIndex].Array[i] = particle;
@@ -44,7 +44,7 @@ namespace _2DGameEngine.Particles
         {
             for(int n = 0; n<ParticlePools.Count; n++)
             {
-                for (int i = ParticlePools[n].InactiveIndex+1; i < ParticlePools[n].Array.Length; i++)
+                for (int i = ParticlePools[n].Array.Length-1; i > ParticlePools[n].InactiveIndex; i--)
                 {
                     ParticlePools[n].Array[i].Sprite.Draw(new Transform(ParticlePools[n].Array[i].Position, ParticlePools[n].Array[i].Size));
                 }
@@ -52,26 +52,24 @@ namespace _2DGameEngine.Particles
         }
         public void Update()
         {
-            for (int n = 0; n<ParticlePools.Count; n++)
+            for (int n = 0; n < ParticlePools.Count; n++)
             {
-                int a = ParticlePools[n].InactiveIndex + 1;
                 for (int i = ParticlePools[n].InactiveIndex + 1; i < ParticlePools[n].Array.Length; i++)
                 {
                     var pool = ParticlePools[n].Array;
-                    if(pool[i].Ticks < 1)
+                    if (pool[i].Ticks < 1)
                     {
                         ParticlePools[n].InactiveIndex++;
                         pool[i].IsActive = false;
                         Particle p = pool[i];
-                        pool[i] = pool[a];
-                        pool[a] = p;
-                        a++;
+                        pool[i] = pool[ParticlePools[n].InactiveIndex];
+                        pool[ParticlePools[n].InactiveIndex] = p;
                         continue;
                     }
                     ParticlePools[n].ParticleComponent.Update(ref pool[i]);
                     pool[i].Ticks--;
                 }
-               //Console.WriteLine(ParticlePools[n].Array.Length - (ParticlePools[n].InactiveIndex + 1));
+                //Console.WriteLine(ParticlePools[n].Array.Length - (ParticlePools[n].InactiveIndex + 1));
             }
         }
     }
