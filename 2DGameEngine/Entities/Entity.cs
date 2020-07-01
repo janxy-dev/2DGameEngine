@@ -33,6 +33,7 @@ namespace _2DGameEngine.Entities
         public void AddComponent(EntityComponent component)
         {
             component.Entity = this;
+            component.Initialize();
             Components.Add(component);
         }
         public void Update()

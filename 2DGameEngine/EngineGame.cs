@@ -9,6 +9,7 @@ namespace _2DGameEngine
 {
     public class EngineGame : Game
     {
+        public Color BackgroundColor { get; set; } = Color.Black;
         public EngineGame()
         {
             IsMouseVisible = true;
@@ -41,7 +42,7 @@ namespace _2DGameEngine
         }
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(BackgroundColor);
             Scene.Instance.Draw();
             base.Draw(gameTime);
         }

@@ -9,6 +9,7 @@ namespace _2DGameEngine.Graphics
         public Texture2D Texture { get; }
         public Point Size { get; set; }
         public Tileset SpriteSheet { get; }
+        public SpriteEffects SpriteEffects { get; set; }
         private int _index;
         public int Index { get { return _index; } set {
                 _index = value;
@@ -28,18 +29,14 @@ namespace _2DGameEngine.Graphics
             Texture = texture2D;
             Size = new Point(Texture.Width, Texture.Height);
         }
-        public Sprite(Tileset spritesheet, int index, int end = 0)
+        public Sprite(Tileset spritesheet, int index)
         {
             SpriteSheet = spritesheet;
             Index = index;
             row = (int)(index / SpriteSheet.Columns);
             column = (int)(index % SpriteSheet.Columns);
             Texture = SpriteSheet.Texture;
-            Size = new Point(SpriteSheet.TileHeight, SpriteSheet.TileWidth);
-            if(end != 0)
-            {
-                Animation = new SpriteAnimation(this, index, end);
-            }
+            Size = new Point(SpriteSheet.TileWidth, SpriteSheet.TileHeight);
         }
         public Sprite(Sprite sprite) //copy constructor
         {
@@ -59,11 +56,11 @@ namespace _2DGameEngine.Graphics
         {
             if(SpriteSheet == null)
             {
-                RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), null, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects.None, 0f);
+                RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), null, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects, 0f);
                 return;
             }
             Rectangle sourceRectangle = new Rectangle(SpriteSheet.TileWidth * column, SpriteSheet.TileHeight * row, SpriteSheet.TileWidth, SpriteSheet.TileHeight);
-            RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), sourceRectangle, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects.None, 0f);
+            RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), sourceRectangle, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects, 0f);
         }
     }
 }

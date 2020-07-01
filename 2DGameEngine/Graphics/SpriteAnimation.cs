@@ -22,13 +22,14 @@ namespace _2DGameEngine.Graphics
         {
             if (tick-1 > 0) { tick--; return; }
             else tick = FrameTick;
-            if(sprite.Index > End)
-            {
-                sprite.Index = Start;
-            }
-            else
+            if (sprite.Index >= Start && sprite.Index <= End)
             {
                 sprite.Index++;
+            }
+            else sprite.Index = Start;
+            if (sprite.Index > End)
+            {
+                sprite.Index = Start;
             }
         }
     }
