@@ -10,12 +10,24 @@ namespace _2DGameEngine.Scenes
     {
         public Scene Scene { get; internal set; }
         private List<Entity> Entities { get; } = new List<Entity>();
-        public ParticleSystem ParticleSystem { get; } = new ParticleSystem();
+        public ParticleSystem ParticleSystem { get; }
+        static float depthCounter { get; set; } = 0f;
+        public static int MaxLayers { get; } = 1000;
+        public float Depth { get; }
+        public float EntityDepth { get { return Depth + 1f / (MaxLayers*10); } }
+        public float LastEntityDepth { get { return EntityDepth + (Entities.Count - 1) / (MaxLayers * 10f * Entities.Count); } }
+        public Layer()
+        {
+            ParticleSystem = new ParticleSystem(this);
+            Depth = depthCounter;
+            depthCounter += 1f / MaxLayers;
+        }
 
         public void AddEntity(Entity entity)
         {
             entity.Layer = this;
             Entities.Add(entity);
+            entity.LayerDepth = LastEntityDepth;
         }
         public Entity[] GetEntities()
         {

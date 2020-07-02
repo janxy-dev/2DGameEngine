@@ -34,7 +34,7 @@ namespace _2DGameEngine.Tiles
         {
             if (Tileset != null)
             {
-                RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X, Position.Y, Width, Height), SourceRectangle, Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, 0f);
+                RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X, Position.Y, Width, Height), SourceRectangle, Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, TileLayer.TileDepth);
             }
 
         }

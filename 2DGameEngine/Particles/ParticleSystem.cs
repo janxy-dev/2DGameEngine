@@ -1,6 +1,8 @@
 ﻿using _2DGameEngine.Graphics;
 using _2DGameEngine.Math;
+using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +12,11 @@ namespace _2DGameEngine.Particles
     {
         private List<ParticlePool> ParticlePools = new List<ParticlePool>();
         private int PoolIndex = 0;
+        public Layer Layer { get; }
+        public ParticleSystem(Layer layer)
+        {
+            Layer = layer;
+        }
         public void CreatePool(Sprite sprite, ParticleComponent component, int count)
         {
             var pool = new ParticlePool(count);
@@ -46,7 +53,9 @@ namespace _2DGameEngine.Particles
             {
                 for (int i = ParticlePools[n].Array.Length-1; i > ParticlePools[n].InactiveIndex; i--)
                 {
-                    ParticlePools[n].Array[i].Sprite.Draw(new Transform(ParticlePools[n].Array[i].Position, ParticlePools[n].Array[i].Size));
+                    var particle = ParticlePools[n].Array[i];
+                    float layerDepth = Layer.LastEntityDepth + ((particle.Ticks+1f)/particle.MaxTicks/(Layer.MaxLayers*particle.MaxTicks));
+                    particle.Sprite.Draw(new Transform(particle.Position, particle.Size), layerDepth);
                 }
             }
         }

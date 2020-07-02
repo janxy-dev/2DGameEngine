@@ -8,6 +8,7 @@ namespace _2DGameEngine.Tiles
         private Tile[,] Tiles { get; }
         public Point TileSize { get; }
         public Point GridSize { get; }
+        public float TileDepth { get { return Depth; } }
         public TileLayer(int gridSizeX, int gridSizeY, int tileSizeX, int tileSizeY)
         {
             Tiles = new Tile[gridSizeX, gridSizeY];

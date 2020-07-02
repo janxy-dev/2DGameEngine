@@ -52,15 +52,16 @@ namespace _2DGameEngine.Graphics
                 Animation = sprite.Animation;
             }
         }
-        public void Draw(Transform Transform)
+        public Sprite() { }
+        public void Draw(Transform Transform, float layerDepth)
         {
             if(SpriteSheet == null)
             {
-                RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), null, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects, 0f);
+                RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), null, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects, layerDepth);
                 return;
             }
             Rectangle sourceRectangle = new Rectangle(SpriteSheet.TileWidth * column, SpriteSheet.TileHeight * row, SpriteSheet.TileWidth, SpriteSheet.TileHeight);
-            RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), sourceRectangle, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects, 0f);
+            RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), sourceRectangle, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects, layerDepth);
         }
     }
 }

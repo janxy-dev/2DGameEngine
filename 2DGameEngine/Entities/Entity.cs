@@ -14,6 +14,7 @@ namespace _2DGameEngine.Entities
         public Layer Layer { get; internal set; }
         private List<EntityComponent> Components { get; } = new List<EntityComponent>();
         public Sprite Sprite { get; set; }
+        public float LayerDepth { get; set; }
         public Transform Transform = new Transform();
         public Entity(Sprite sprite)
         {
@@ -45,7 +46,8 @@ namespace _2DGameEngine.Entities
         }
         public void Draw()
         {
-            if (Sprite != null) Sprite.Draw(Transform);
+            if (Sprite != null)
+                Sprite.Draw(Transform, LayerDepth);
         }
     }
 }
