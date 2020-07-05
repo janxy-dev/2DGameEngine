@@ -1,4 +1,5 @@
 ﻿using _2DGameEngine.Entities;
+using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
 
 namespace _2DGameEngine

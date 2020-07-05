@@ -81,15 +81,15 @@ namespace _2DGameEngine.Tiles
             Value = val;
         }
         Point fixoff = new Point();
-        public override void Draw()
+        public override void Draw(float layerDepth)
         {
             if (Tileset == null) return;
             fixoff.X = (Width / 2 - TileLayer.TileSize.X / 2) / -2;
             fixoff.Y = (Height / 2 - TileLayer.TileSize.Y / 2) / -2;
-            RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + fixoff.X, Position.Y + fixoff.Y, Width / 2, Height / 2), Chunks.TL[Value.TL], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, 0f);
-            RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + Width / 2 + fixoff.X, Position.Y + fixoff.Y, Width / 2, Height / 2), Chunks.TR[Value.TR], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, 0f);
-            RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + fixoff.X, Position.Y + Height / 2 + fixoff.Y, Width / 2, Height / 2), Chunks.BL[Value.BL], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, 0f);
-            RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + Width / 2 + fixoff.X, Position.Y + Height / 2 + fixoff.Y, Width / 2, Height / 2), Chunks.BR[Value.BR], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, 0f);
+            RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + fixoff.X, Position.Y + fixoff.Y, Width / 2, Height / 2), Chunks.TL[Value.TL], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, layerDepth);
+            RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + Width / 2 + fixoff.X, Position.Y + fixoff.Y, Width / 2, Height / 2), Chunks.TR[Value.TR], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, layerDepth);
+            RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + fixoff.X, Position.Y + Height / 2 + fixoff.Y, Width / 2, Height / 2), Chunks.BL[Value.BL], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, layerDepth);
+            RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X + Width / 2 + fixoff.X, Position.Y + Height / 2 + fixoff.Y, Width / 2, Height / 2), Chunks.BR[Value.BR], Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, layerDepth);
         }
     }
 }

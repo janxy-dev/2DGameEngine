@@ -12,9 +12,8 @@ namespace _2DGameEngine.Entities
     public class Entity
     {
         public Layer Layer { get; internal set; }
-        private List<EntityComponent> Components { get; } = new List<EntityComponent>();
+        public List<EntityComponent> Components { get; } = new List<EntityComponent>();
         public Sprite Sprite { get; set; }
-        public float LayerDepth { get; set; }
         public Transform Transform = new Transform();
         public Entity(Sprite sprite)
         {
@@ -26,7 +25,6 @@ namespace _2DGameEngine.Entities
             Transform.Size = new Point(width, height);
         }
         public Entity() { }
-        public EntityComponent[] GetComponents() { return Components.ToArray(); }
         public EntityComponent GetComponent<T>()
         {
             return Components.Find(n => n.GetType() == typeof(T));
@@ -44,10 +42,10 @@ namespace _2DGameEngine.Entities
                 Components[i].Update();
             }
         }
-        public void Draw()
+        public void Draw(float layerDepth)
         {
             if (Sprite != null)
-                Sprite.Draw(Transform, LayerDepth);
+                Sprite.Draw(Transform, layerDepth);
         }
     }
 }

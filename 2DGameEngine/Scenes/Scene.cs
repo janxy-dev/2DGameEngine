@@ -11,7 +11,7 @@ namespace _2DGameEngine.Scenes
     public class Scene
     {
         public static Scene Instance { get; set; }
-        private List<Layer> Layers { get; } = new List<Layer>();
+        public List<Layer> Layers { get; } = new List<Layer>();
         public Point MousePosition { get 
             { 
                 Vector2 pos = Vector2.Transform(new Vector2(Input.MousePosition.X, Input.MousePosition.Y), Matrix.Invert(Camera.TransformMatrix));
@@ -19,20 +19,17 @@ namespace _2DGameEngine.Scenes
             }
         }
         public Camera Camera { get; set; }
+        public static MgFrameRate FrameRate { get; set; }
         public Scene()
         {
             Instance = this;
-            Camera = new Camera();
             Layers.Add(new Layer());
-            Layers[0].AddEntity(Camera);
-        }
-        public Layer GetLayer(int layerID)
-        {
-            return Layers[layerID];
-        }
+            Camera = new Camera();
+            Layers[0].AddEntity(Camera);        }
         public void AddLayer(Layer layer)
         {
             layer.Scene = this;
+            layer.Index = Layers.Count;
             Layers.Add(layer);
         }
         public void Update()
@@ -45,9 +42,10 @@ namespace _2DGameEngine.Scenes
         public void Draw()
         {
         RenderContext.SpriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Instance.Camera.TransformMatrix);
-            for(int i = 0; i<Layers.Count; i++)
+            float layerDepth = 0f;
+            for (int i = 0; i<Layers.Count; i++)
             {
-                Layers[i].Draw();
+                Layers[i].Draw(ref layerDepth);
             }
         RenderContext.SpriteBatch.End();
         }

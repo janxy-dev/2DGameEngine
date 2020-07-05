@@ -1,5 +1,6 @@
 ﻿using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace _2DGameEngine.Tiles
 {
@@ -8,7 +9,6 @@ namespace _2DGameEngine.Tiles
         private Tile[,] Tiles { get; }
         public Point TileSize { get; }
         public Point GridSize { get; }
-        public float TileDepth { get { return Depth; } }
         public TileLayer(int gridSizeX, int gridSizeY, int tileSizeX, int tileSizeY)
         {
             Tiles = new Tile[gridSizeX, gridSizeY];
@@ -53,16 +53,18 @@ namespace _2DGameEngine.Tiles
                 }
             }
         }
-        public override void Draw()
+        public override void Draw(ref float layerDepth)
         {
+            layerDepth += (1 / 10000000f);
             for(int x = 0; x<GridSize.X; x++)
             {
                 for(int y = 0; y<GridSize.Y; y++)
                 {
-                    Tiles[x, y].Draw();
+                    Tiles[x, y].Draw(layerDepth);
+                
                 }
             }
-            base.Draw();
+            base.Draw(ref layerDepth);
         }
     }
 }

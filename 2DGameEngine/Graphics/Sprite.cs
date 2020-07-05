@@ -2,6 +2,8 @@
 using _2DGameEngine.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Dynamic;
+
 namespace _2DGameEngine.Graphics
 {
     public class Sprite
@@ -10,6 +12,7 @@ namespace _2DGameEngine.Graphics
         public Point Size { get; set; }
         public Tileset SpriteSheet { get; }
         public SpriteEffects SpriteEffects { get; set; }
+        public Rectangle SourceRectangle { get { if (SpriteSheet != null) { return new Rectangle(SpriteSheet.TileWidth * column, SpriteSheet.TileHeight * row, SpriteSheet.TileWidth, SpriteSheet.TileHeight); } else return new Rectangle(0, 0, Texture.Width, Texture.Height); } }
         private int _index;
         public int Index { get { return _index; } set {
                 _index = value;
@@ -55,13 +58,7 @@ namespace _2DGameEngine.Graphics
         public Sprite() { }
         public void Draw(Transform Transform, float layerDepth)
         {
-            if(SpriteSheet == null)
-            {
-                RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), null, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects, layerDepth);
-                return;
-            }
-            Rectangle sourceRectangle = new Rectangle(SpriteSheet.TileWidth * column, SpriteSheet.TileHeight * row, SpriteSheet.TileWidth, SpriteSheet.TileHeight);
-            RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), sourceRectangle, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects, layerDepth);
+            RenderContext.SpriteBatch.Draw(Texture, new Rectangle(Transform.Position, Transform.Size), SourceRectangle, Color.White * Opacity, Transform.Rotation, Transform.Origin, SpriteEffects, layerDepth);
         }
     }
 }

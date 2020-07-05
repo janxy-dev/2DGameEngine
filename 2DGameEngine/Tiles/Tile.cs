@@ -17,7 +17,7 @@ namespace _2DGameEngine.Tiles
         public int Height { get { return Tileset.TileHeight; } }
         public Point GridPosition { get; }
         public TileLayer TileLayer { get; internal set; }
-        public Point Position { get { return new Point(GridPosition.X * TileLayer.TileSize.X, GridPosition.Y * TileLayer.TileSize.Y); } } //change later
+        public Point Position { get { return new Point(GridPosition.X * TileLayer.TileSize.X, GridPosition.Y * TileLayer.TileSize.Y); } }
         public Tile(Point gridPosition, Tileset tileset=null, int index=0)
         {
             GridPosition = gridPosition;
@@ -30,11 +30,11 @@ namespace _2DGameEngine.Tiles
             Column = (int)(TileIndex % tileset.Columns);
             SourceRectangle = new Rectangle(Tileset.TileWidth * Column, Tileset.TileHeight * Row, Tileset.TileWidth, Tileset.TileHeight);
         }
-        public virtual void Draw()
+        public virtual void Draw(float layerDepth)
         {
             if (Tileset != null)
             {
-                RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X, Position.Y, Width, Height), SourceRectangle, Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, TileLayer.TileDepth);
+                RenderContext.SpriteBatch.Draw(Tileset.Texture, new Rectangle(Position.X, Position.Y, Width, Height), SourceRectangle, Color.White, 0f, new Vector2(0f, 0f), SpriteEffects.None, layerDepth);
             }
 
         }
