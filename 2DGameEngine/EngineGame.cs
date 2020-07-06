@@ -1,9 +1,6 @@
-﻿using _2DGameEngine.Entities;
-using _2DGameEngine.Particles;
-using _2DGameEngine.Scenes;
+﻿using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace _2DGameEngine
 {

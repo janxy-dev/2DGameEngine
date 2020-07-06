@@ -45,7 +45,9 @@ namespace _2DGameEngine.Entities
         public void Draw(float layerDepth)
         {
             if (Sprite != null)
+            {
                 Sprite.Draw(Transform, layerDepth);
+            }
         }
     }
 }

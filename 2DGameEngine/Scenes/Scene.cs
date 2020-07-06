@@ -23,7 +23,7 @@ namespace _2DGameEngine.Scenes
         public Scene()
         {
             Instance = this;
-            Layers.Add(new Layer());
+            AddLayer(new Layer());
             Camera = new Camera();
             Layers[0].AddEntity(Camera);        }
         public void AddLayer(Layer layer)
