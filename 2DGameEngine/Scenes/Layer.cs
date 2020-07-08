@@ -7,22 +7,21 @@ using System.Collections.Generic;
 
 namespace _2DGameEngine.Scenes
 {
+    public enum EntityDepthSorting
+    {
+        Normal, SortByY
+    }
     public class Layer
     {
-        public enum DepthSortingMethod
-        {
-            Normal, SortByHeight
-        }
         public Scene Scene { get; internal set; }
         public List<Entity> Entities { get; } = new List<Entity>();
-        public DepthSortingMethod EntityDepthSorting;
+        public EntityDepthSorting EntityDepthSorting { get; set; }
         public ParticleSystem ParticleSystem { get; }
         public int Index { get; set; }
 
         public Layer()
         {
             ParticleSystem = new ParticleSystem(this);
-            EntityDepthSorting = DepthSortingMethod.SortByHeight;
         }
 
         public void AddEntity(Entity entity)
@@ -37,7 +36,8 @@ namespace _2DGameEngine.Scenes
         }
         public virtual void Draw(ref float layerDepth)
         {
-            if(EntityDepthSorting == DepthSortingMethod.Normal)
+            ParticleSystem.Draw(ref layerDepth, ParticleDepthSorting.UnderEntities);
+            if(EntityDepthSorting == EntityDepthSorting.Normal)
             {
                 for (int i = 0; i < Entities.Count; i++)
                 {
@@ -45,23 +45,23 @@ namespace _2DGameEngine.Scenes
                     Entities[i].Draw(layerDepth);
                 }
             }
-            else if(EntityDepthSorting == DepthSortingMethod.SortByHeight)
+            else if(EntityDepthSorting == EntityDepthSorting.SortByY)
             {
-                float lowestHeight = 0f;
+                float biggestY = 0f;
                 for (int i = 0; i<Entities.Count; i++)
                 {
                     if (Entities[i].Sprite == null) return;
-                    Vector2 a = Vector2.Transform(new Vector2(Entities[i].Transform.Position.X, Entities[i].Transform.Position.Y+Entities[i].Transform.Size.Y), Scene.Camera.TransformMatrix);
-                    Console.WriteLine(a.Y);
-                    float height = a.Y/ 10000000f;
-                    if(lowestHeight < height) lowestHeight = height;
+                    float posY = Entities[i].Transform.Position.Y+Entities[i].Transform.Size.Y - Scene.Camera.Transform.Position.Y;
+                    Console.WriteLine(posY);
+                    float height = posY/ 10000000f;
+                    if(biggestY < height) biggestY = height;
                     Entities[i].Draw(layerDepth + height);
                 }
-                layerDepth += lowestHeight;
-
+                ParticleSystem.Draw(ref layerDepth, ParticleDepthSorting.SortByY);
+                layerDepth += biggestY;
             }
-            ParticleSystem.Draw(ref layerDepth);
-            
+            ParticleSystem.Draw(ref layerDepth, ParticleDepthSorting.AboveEntities);
+
         }
         public virtual void Update()
         {

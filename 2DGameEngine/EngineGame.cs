@@ -1,6 +1,7 @@
 ﻿using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace _2DGameEngine
 {
@@ -41,7 +42,7 @@ namespace _2DGameEngine
         {
             GraphicsDevice.Clear(BackgroundColor);
             Scene.Instance.Draw();
-            //Console.WriteLine(1f / gameTime.ElapsedGameTime.TotalSeconds);
+            Console.WriteLine(1f / gameTime.ElapsedGameTime.TotalSeconds);
             base.Draw(gameTime);
         }
     }

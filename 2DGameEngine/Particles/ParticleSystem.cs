@@ -3,22 +3,22 @@ using _2DGameEngine.Math;
 using _2DGameEngine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace _2DGameEngine.Particles
 {
     public class ParticleSystem
     {
-        private List<ParticlePool> ParticlePools = new List<ParticlePool>(10);
+        public List<ParticlePool> ParticlePools { get; } = new List<ParticlePool>();
         public Layer Layer { get; }
         public ParticleSystem(Layer layer)
         {
             Layer = layer;
         }
-        public void CreatePool(Sprite sprite, ParticleComponent component, int count)
+        public void CreatePool(int count, Sprite sprite, ParticleComponent component, ParticleDepthSorting depthSorting)
         {
-            var pool = new ParticlePool(count);
-            pool.ParticleComponent = component;
+            var pool = new ParticlePool(count, component, depthSorting, this);
             ParticlePools.Add(pool);
             for (int i = 0; i<count; i++)
             {
@@ -29,7 +29,7 @@ namespace _2DGameEngine.Particles
                     Opacity = sprite.Opacity,
                     SourceRectangle = sprite.SourceRectangle
                 };
-                ParticlePools[ParticlePools.Count-1].Array[i] = particle;
+                pool.Array[i] = particle;
             }
         }
         public void SpawnParticles(int index, Point position, Vector2 velocity, int count, int ticks)
@@ -46,19 +46,13 @@ namespace _2DGameEngine.Particles
             }
             ParticlePools[index].InactiveIndex -= count;
         }
-        public void Draw(ref float layerDepth)
+        public void Draw(ref float layerDepth, ParticleDepthSorting depthSorting)
         {
-            for (int n = 0; n<ParticlePools.Count; n++)
+            for (int i = 0; i < ParticlePools.Count; i++)
             {
-                float biggestTicks = 0f;
-                for (int i = ParticlePools[n].Array.Length-1; i > ParticlePools[n].InactiveIndex; i--)
+                if (ParticlePools[i].DepthSorting == depthSorting)
                 {
-                    var particle = ParticlePools[n].Array[i];
-                    float depth = layerDepth + (particle.Ticks+1) / 10000000f;
-                    RenderContext.SpriteBatch.Draw(particle.Texture, new Rectangle(particle.Position, particle.Size), particle.SourceRectangle, Color.White*particle.Opacity, particle.Rotation, new Vector2(), SpriteEffects.None, depth);
-                    if (particle.Ticks+1 > biggestTicks) biggestTicks = particle.Ticks+1;
-                    if(i== ParticlePools[n].InactiveIndex+1)
-                        layerDepth += biggestTicks / 10000000f;
+                    ParticlePools[i].Draw(ref layerDepth);
                 }
             }
         }

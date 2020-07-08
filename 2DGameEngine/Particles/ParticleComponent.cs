@@ -14,7 +14,6 @@ namespace _2DGameEngine.Particles
         public virtual void Update(ref Particle particle)
         {
             particle.Position += new Point((int)particle.Velocity.X, (int)particle.Velocity.Y);
-            particle.Rotation += 1f;
             particle.Opacity = (particle.Ticks / (float)particle.MaxTicks);
         }
     }
