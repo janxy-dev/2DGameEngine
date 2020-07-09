@@ -47,18 +47,17 @@ namespace _2DGameEngine.Scenes
             }
             else if(EntityDepthSorting == EntityDepthSorting.SortByY)
             {
-                float biggestY = 0f;
+                float biggestDepth = 0f;
                 for (int i = 0; i<Entities.Count; i++)
                 {
                     if (Entities[i].Sprite == null) return;
                     float posY = Entities[i].Transform.Position.Y+Entities[i].Transform.Size.Y - Scene.Camera.Transform.Position.Y;
-                    Console.WriteLine(posY);
-                    float height = posY/ 10000000f;
-                    if(biggestY < height) biggestY = height;
-                    Entities[i].Draw(layerDepth + height);
+                    float depth = posY/ 10000000f;
+                    if (biggestDepth < depth) biggestDepth = depth;
+                    Entities[i].Draw(layerDepth + depth + i/(10000000f*Entities.Count));
                 }
                 ParticleSystem.Draw(ref layerDepth, ParticleDepthSorting.SortByY);
-                layerDepth += biggestY;
+                layerDepth += biggestDepth;
             }
             ParticleSystem.Draw(ref layerDepth, ParticleDepthSorting.AboveEntities);
 

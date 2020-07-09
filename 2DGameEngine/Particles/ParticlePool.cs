@@ -48,9 +48,10 @@ namespace _2DGameEngine.Particles
                 {
                     var particle = Array[i];
                     int posY = (particle.Position.Y + particle.Size.Y - ParticleSystem.Layer.Scene.Camera.Transform.Position.Y);
+                    int activeIndex = i - InactiveIndex - 1;
                     float depth = posY / 10000000f;
                     if (biggestDepth < depth) biggestDepth = depth;
-                    RenderContext.SpriteBatch.Draw(particle.Texture, new Rectangle(particle.Position, particle.Size), particle.SourceRectangle, Color.White * particle.Opacity, particle.Rotation, new Vector2(), SpriteEffects.None, layerDepth + depth);
+                    RenderContext.SpriteBatch.Draw(particle.Texture, new Rectangle(particle.Position, particle.Size), particle.SourceRectangle, Color.White * particle.Opacity, particle.Rotation, new Vector2(), SpriteEffects.None, layerDepth + depth + activeIndex / (10000000f * (Array.Length - 1 - InactiveIndex)));
                 }
                 layerDepth += biggestDepth;
             }
