@@ -60,7 +60,6 @@ namespace _2DGameEngine.Scenes
                 layerDepth += biggestDepth;
             }
             ParticleSystem.Draw(ref layerDepth, ParticleDepthSorting.AboveEntities);
-
         }
         public virtual void Update()
         {

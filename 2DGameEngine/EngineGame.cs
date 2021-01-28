@@ -42,7 +42,7 @@ namespace _2DGameEngine
         {
             GraphicsDevice.Clear(BackgroundColor);
             Scene.Instance.Draw();
-            Console.WriteLine(1f / gameTime.ElapsedGameTime.TotalSeconds);
+//            Console.WriteLine(1f / gameTime.ElapsedGameTime.TotalSeconds);
             base.Draw(gameTime);
         }
     }

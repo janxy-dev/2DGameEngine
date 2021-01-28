@@ -80,7 +80,7 @@ namespace _2DGameEngine.Tiles
                                 int h = (int)float.Parse(xr.GetAttribute(4));
                                 entity.Transform.Position = new Point(posx, posy);
                                 entity.Transform.Size = new Point(w, h);
-                                entity.AddComponent(new BoxColliderComponent());
+                                entity.AddComponent(new BoxCollider());
                                 break;
                             case "data":
                                 string[] buffer = xr.ReadElementContentAsString().Replace("\n", "").Split(',');

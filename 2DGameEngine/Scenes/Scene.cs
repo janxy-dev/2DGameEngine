@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace _2DGameEngine.Scenes
 {
@@ -41,13 +42,17 @@ namespace _2DGameEngine.Scenes
         }
         public void Draw()
         {
-        RenderContext.SpriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Instance.Camera.TransformMatrix);
-            float layerDepth = 0f;
-            for (int i = 0; i<Layers.Count; i++)
-            {
-                Layers[i].Draw(ref layerDepth);
-            }
-        RenderContext.SpriteBatch.End();
+            RenderContext.SpriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Instance.Camera.TransformMatrix);
+                float layerDepth = 0f;
+                for (int i = 0; i<Layers.Count; i++)
+                {
+                    Layers[i].Draw(ref layerDepth);
+                }
+            RenderContext.SpriteBatch.End();
+
+            RenderContext.SpriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, Instance.Camera.TransformMatrix);
+            Debugging.Drawing.DrawObjects();
+            RenderContext.SpriteBatch.End();
         }
     }
 }

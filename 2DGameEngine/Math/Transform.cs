@@ -5,6 +5,7 @@ using System.Text;
 
 namespace _2DGameEngine.Math
 {
+    public enum Direction { Left, Right, Up, Down}
     public struct Transform
     {
         public Point Position;
