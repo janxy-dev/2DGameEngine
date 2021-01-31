@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace _2DGameEngine.Particles
 {
@@ -32,19 +33,14 @@ namespace _2DGameEngine.Particles
                 pool.Array[i] = particle;
             }
         }
-        public void SpawnParticles(int index, Point position, Vector2 velocity, int count, int ticks)
+        public void SpawnParticle(int index, Point position, List<object> objects, int ticks)
         {
-            for(int i = ParticlePools[index].InactiveIndex; i>ParticlePools[index].InactiveIndex-count; i--)
-            {
-                ref var particle = ref ParticlePools[index].Array[i];
-                particle.IsActive = true;
-                particle.Position = position;
-                particle.Velocity = velocity;
-                particle.MaxTicks = ticks;
-                particle.Ticks = ticks;
-                ParticlePools[index].ParticleComponent.Initialize(ref particle);
-            }
-            ParticlePools[index].InactiveIndex -= count;
+            ref var particle = ref ParticlePools[index].Array[ParticlePools[index].InactiveIndex];
+            particle.Position = position;
+            particle.Ticks = ticks;
+            particle.Objects = objects;
+            ParticlePools[index].ParticleComponent.Initialize(ref particle);
+            ParticlePools[index].InactiveIndex--;
         }
         public void Draw(ref float layerDepth, ParticleDepthSorting depthSorting)
         {
@@ -66,7 +62,6 @@ namespace _2DGameEngine.Particles
                     if (pool[i].Ticks < 1)
                     {
                         ParticlePools[n].InactiveIndex++;
-                        pool[i].IsActive = false;
                         Particle p = pool[i];
                         pool[i] = pool[ParticlePools[n].InactiveIndex];
                         pool[ParticlePools[n].InactiveIndex] = p;

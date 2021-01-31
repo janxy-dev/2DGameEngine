@@ -27,6 +27,7 @@ namespace _2DGameEngine.Scenes
         public void AddEntity(Entity entity)
         {
             entity.Layer = this;
+            entity.Initialize();
             Entities.Add(entity);
         }
         public void RemoveEntity(Entity entity)

@@ -29,6 +29,9 @@ namespace _2DGameEngine.Entities
         {
             return Components.Find(n => n.GetType() == typeof(T));
         }
+        public virtual void Initialize()
+        {
+        }
         public void AddComponent(EntityComponent component)
         {
             component.Entity = this;
